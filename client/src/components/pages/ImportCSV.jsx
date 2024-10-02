@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../layout/Navbar';
 
 function ImportCSV() {
   return (
-    <div>ImportCSV</div>
+    <div>
+      <Navbar />
+      ImportCSV</div>
   )
 }
 
-export default ImportCSV
+export default ImportCSV;

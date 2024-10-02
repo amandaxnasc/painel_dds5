@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import Navbar from '../layout/Navbar';
 
 function GestaoUsuario() {
   return (
-    <div>GestaoUsuario</div>
+    
+    <div>
+      <Navbar/>
+      GestaoUsuario      
+    </div>
   )
 }
 
