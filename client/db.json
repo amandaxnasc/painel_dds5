@@ -34,13 +34,14 @@
       "chave": null
     },
     {
-      "id": "03e8",
-      "data": "2024-10-04",
-      "data_hora_inicio": "13:30",
-      "turma": "AIT-DDS5",
-      "instrutor": "Sarah Monteiro",
-      "unidade_curricular": "MARKENTING",
-      "ambiente": "PORTO -LABORATORIO-01",
+      "id": "17cc",
+      "data": "2024-10-07",
+      "data_hora_inicio": "16:19",
+      "data_hora_fim": "17:20",
+      "turma": "DDS4",
+      "instrutor": "RAMOM",
+      "unidade_curricular": "DDS",
+      "ambiente": "SALA 5006",
       "chave": null
     }
   ],
