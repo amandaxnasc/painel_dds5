@@ -18,7 +18,9 @@ function App() {
         <Route path='/import_csv' element={<ImportCSV/>}/>
         <Route path='/cadastro_aula' element={<CadastroAula/>}/>
         <Route path='/gestao_aula' element={<GestaoAulas/>}/>
-        <Route path='/edit_aula/:id' element={<EditAula/>}/>
+        <Route path='/gestao_aula/:tipo' element={<GestaoAulas/>}/>
+        <Route path='/edit_aula/:id' element={<EditAula/>}/>       
+
       </Routes>
     </Router>
   );

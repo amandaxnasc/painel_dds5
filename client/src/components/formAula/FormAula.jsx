@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function FormAula({ titulo, textoBotao, handleSubmit, id}) {
+
+function FormAula({ titulo, textoBotao, handleSubmit, id, tipo }) {
+    const navigate = useNavigate();
+
     const [dataAula, setDataAula] = useState('');
     const [horaInicio, setHoraInicio] = useState('');
     const [horaFim, setHoraFim] = useState('');
@@ -9,13 +13,14 @@ function FormAula({ titulo, textoBotao, handleSubmit, id}) {
     const [unidadeCurricular, setUnidadeCurricular] = useState('');
     const [ambiente, setAmbiente] = useState('');
 
-    useEffect(()=>{
-        if(id){ 
-        baixarAulas(id)
+    useEffect(() => {
+        if (id) {
+            baixarAula(id)
         }
-    },[]);
 
-    async function baixarAulas(id) {
+    }, []);
+
+    async function baixarAula(id) {
         try {
             const resposta = await fetch(`http://localhost:5000/aulas/${id}`, {
                 method: 'GET',
@@ -23,11 +28,20 @@ function FormAula({ titulo, textoBotao, handleSubmit, id}) {
                     'Content-Type': 'application/json'
                 }
             })
+
             if (!resposta.ok) {
-                throw new Error('Erro ao buscar aula');
+                throw new Error('Erro ao buscar aula')
             } else {
-                console.log(JSON.stringify(resposta));
+                const respostaJSON = await resposta.json();
+                console.log(respostaJSON);
+                setTurma(respostaJSON.turma);
+                setInstrutor(respostaJSON.instrutor);
+                setUnidadeCurricular(respostaJSON.unidade_curricular);
+                setAmbiente(respostaJSON.ambiente)
+
+
             }
+
         } catch (error) {
             console.log(error)
         }
@@ -44,22 +58,24 @@ function FormAula({ titulo, textoBotao, handleSubmit, id}) {
             unidade_curricular: unidadeCurricular,
             ambiente: ambiente,
             chave: null
-        }
-        handleSubmit(aula);
-    }
 
+        }
+
+        handleSubmit(aula, id);
+        navigate(`/gestao_aula/${tipo}`)
+    }
     return (
         <>
-            <div className='container col-sm-12 col-md-6 col-lg-3 mt-3' >
+            <div className='container col-sm-12 col-md-6 col-lg-3 mt-3'>
                 <h2 className="text-center">{titulo}</h2>
                 <form onSubmit={submit}>
-                    <label className='form-label ' htmlFor="">Data:</label>
+                    <label className='form-label' htmlFor="">Data</label>
                     <input className='form-control' type="date" name="" id="" value={dataAula} onChange={(e) => (setDataAula(e.target.value))} />
 
-                    <label className='form-label' htmlFor="">Hora Inicio:</label>
+                    <label className='form-label' htmlFor="">Hora Início:</label>
                     <input className='form-control' type="time" name="" id="" value={horaInicio} onChange={(e) => (setHoraInicio(e.target.value))} />
 
-                    <label className='form-label' htmlFor="">Hora Fim:</label>
+                    <label className='form-label' htmlFor="">Hora Fim</label>
                     <input className='form-control' type="time" name="" id="" value={horaFim} onChange={(e) => (setHoraFim(e.target.value))} />
 
                     <label className='form-label' htmlFor="">Turma:</label>
@@ -68,19 +84,23 @@ function FormAula({ titulo, textoBotao, handleSubmit, id}) {
                     <label className='form-label' htmlFor="">Instrutor:</label>
                     <input className='form-control' type="text" name="" id="" value={instrutor} onChange={(e) => (setInstrutor(e.target.value))} />
 
-                    <label className='form-label' htmlFor="">Unidade Curricurilar:</label>
+                    <label className='form-label' htmlFor="">Unidade Curricular:</label>
                     <input className='form-control' type="text" name="" id="" value={unidadeCurricular} onChange={(e) => (setUnidadeCurricular(e.target.value))} />
 
-                    <label className='form-label' htmlFor="">Ambiente:</label>
+                    <label className='form-label' htmlFor="">Ambiente</label>
                     <input className='form-control' type="text" name="" id="" value={ambiente} onChange={(e) => (setAmbiente(e.target.value))} />
 
-                    <a className='btn btn-danger mt-3' href="">Cancelar</a>
-                    <button className='btn btn-success mt-3 float-end' type='submit'>{textoBotao}</button>
+                    <a className="btn btn-danger mt-3 float-start" href="">Cancelar</a>
+                    <button className="btn btn-success mt-3 float-end" type="submit">{textoBotao}</button>
+
+
                 </form>
             </div>
-        </>
-    )
 
+        </>
+
+
+    )
 }
 
 export default FormAula;
