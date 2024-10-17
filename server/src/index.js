@@ -14,6 +14,9 @@ const porta = 5000;
 // Habilitando cors
 app.use(cors());
 
+//Habilitando Json
+app.use(express.json());
+
 // Rota padrão para teste de API
 app.get('/',(req,res)=>{
     res.send('Teste de API funcionando')
