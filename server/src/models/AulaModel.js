@@ -43,14 +43,17 @@ export async function createAula(aula) {
 }
 
 export async function readAula(aula) {
-
+    //Criando conexão para o banco de dados usando configurações do db
     const conexao = mysql.createPool(db);
 
+    //Ao ser acionado o metodo createAula retorna na tela
     console.log('Entrando no Model Aula');
 
+    //Criando String com comandos sql
     const sql = `SELECT * FROM aulas`
 
-    const params = [ 
+    //Definindo parametros para inserir no sql
+    const params = [
         aula.data,
         aula.data_hora_inicio,
         aula.data_hora_fim,
@@ -58,12 +61,76 @@ export async function readAula(aula) {
         aula.instrutor,
         aula.unidade_curricular,
         aula.ambiente
-        ]
+    ]
 
+    //Executando query no banco
     try {
         const [retorno] = await conexao.query(sql, params);
         console.log('Aula sendo exibinda');
         return [201, retorno];
+    } catch (error) {
+        console.log(error);
+        return [500, error];
+    }
+
+}
+export async function updateAula(aula, id) {
+    //Criando conexão para o banco de dados usando configurações do db
+    const conexao = mysql.createPool(db);
+
+    //Ao ser acionado o metodo createAula retorna na tela
+    console.log('Entrando no Model Aula');
+
+    //Criando String com comandos sql
+    const sql = `UPDATE aulas SET data = ?,
+    data_hora_inicio = ?,
+    data_hora_fim = ?,
+    turma = ?,
+    instrutor = ?,
+    unidade_curricular = ?,
+    ambiente = ?
+    WHERE id = ?
+    `
+    //Definindo parametros para inserir no sql
+    const params = [
+        aula.data,
+        aula.data_hora_inicio,
+        aula.data_hora_fim,
+        aula.turma,
+        aula.instrutor,
+        aula.unidade_curricular,
+        aula.ambiente,
+        id
+    ];
+
+    //Executando query no banco
+    try {
+        const [retorno] = await conexao.query(sql, params);
+        console.log('Atualizando Aula');
+        return [200, retorno];
+    } catch (error) {
+        console.log(error);
+        return [500, error];
+    }
+}
+export async function deleteAula(id) {
+    //Criando conexão para o banco de dados usando configurações do db
+    const conexao = mysql.createPool(db);
+
+    //Ao ser acionado o metodo createAula retorna na tela
+    console.log('Deletando no Model Aula');
+
+    //Criando String com comandos sql
+    const sql = `DELETE FROM aulas WHERE ID=?`
+
+    //Definindo parametros para inserir no sql
+    const params = [id];
+
+    //Executando query no banco
+    try {
+        const [retorno] = await conexao.query(sql, params);
+        console.log('Deletando Aula');
+        return [200, retorno];
     } catch (error) {
         console.log(error);
         return [500, error];
