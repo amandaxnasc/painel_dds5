@@ -108,7 +108,10 @@ export async function updateAula(aula, id) {
     try {
         const [retorno] = await conexao.query(sql, params);
         console.log('Atualizando Aula');
-        return [200, retorno];
+        if (retorno.affectedRows < 1) {
+            return [404, { message: "Aula não encontrada" }];
+        }
+        return [200, { message: "Aula não atualizada" }];
     } catch (error) {
         console.log(error);
         return [500, error];
@@ -132,7 +135,10 @@ export async function deleteAula(id) {
     try {
         const [retorno] = await conexao.query(sql, params);
         console.log('Deletando Aula');
-        return [200, retorno];
+        if (retorno.affectedRows < 1) {
+            return [404, { message: "Aula não encontrada"}];
+        }
+        return [200, { message: "Aula excluída"}];
     } catch (error) {
         console.log(error);
         return [500, error];
@@ -154,7 +160,7 @@ export async function showOneAula(id) {
 
     //Executando query no banco
     try {
-        const [retorno] = await conexao.query(sql,params);
+        const [retorno] = await conexao.query(sql, params);
         console.log('Mostrando uma Aula');
         return [200, retorno[0]];
     } catch (error) {
