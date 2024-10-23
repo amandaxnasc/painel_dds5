@@ -7,7 +7,7 @@ function EditAula() {
 
   const{id} = useParams();
 
-  async function editarAula(infoAula) {
+  async function editarAula(infoAula, id) {
     try {
       const resposta = await fetch(`http://localhost:5000/aulas/${id}`,{
         method:'PUT',

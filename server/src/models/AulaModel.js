@@ -74,6 +74,7 @@ export async function readAula(aula) {
     }
 
 }
+
 export async function updateAula(aula, id) {
     //Criando conexão para o banco de dados usando configurações do db
     const conexao = mysql.createPool(db);
@@ -113,6 +114,7 @@ export async function updateAula(aula, id) {
         return [500, error];
     }
 }
+
 export async function deleteAula(id) {
     //Criando conexão para o banco de dados usando configurações do db
     const conexao = mysql.createPool(db);
@@ -135,5 +137,29 @@ export async function deleteAula(id) {
         console.log(error);
         return [500, error];
     }
-
 }
+
+export async function showOneAula(id) {
+    //Criando conexão para o banco de dados usando configurações do db
+    const conexao = mysql.createPool(db);
+
+    //Ao ser acionado o metodo createAula retorna na tela
+    console.log('Mostrando uma aula no Model Aula');
+
+    //Criando String com comandos sql
+    const sql = `SELECT * FROM aulas WHERE id=?`
+
+    //Definindo parametros para inserir no sql
+    const params = [id];
+
+    //Executando query no banco
+    try {
+        const [retorno] = await conexao.query(sql,params);
+        console.log('Mostrando uma Aula');
+        return [200, retorno[0]];
+    } catch (error) {
+        console.log(error);
+        return [500, error];
+    }
+}
+
